@@ -8,7 +8,7 @@ A simple command-line tool that allows you to publish any directory as as HTTP w
 
 In order to use this tool **[node.js]** and **[npm]** should be installed on your machine. Then you could just clone this repository and run following command. 
 ```
-cd /path/to/repo
+cd publishify/
 npm install -g
 ```
 **Note**: You may need ``sudo`` access to install it. 
@@ -17,10 +17,11 @@ npm install -g
 ```
 publishify PORT DIRECTORY
 ```
-##### Example
+###### Example:
 ```
 publishify 3000 /home/user
 ```
+Then, visit following link: ``http://YOUR_IP_ADDRESS:PORT``. If you're running locally (you won't probably need it) visit ``http://localhost:PORT``.
 
 ### Tools used
 
