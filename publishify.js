@@ -1,6 +1,8 @@
 var http = require('http');
 var path = require('path');
 var fs   = require('fs');
+var filesize = require('filesize');
+var moment = require('moment');
 
 exports.serveStatic = function (filePath, callback) {
   fs.exists(filePath, function(exists) {
@@ -36,9 +38,9 @@ exports.listDir = function(path, callback) {
         var file = new Object();
         file.name = f;
         var stats = fs.statSync(path + '/' + f);
-        file.size = stats.size;
-        var d = new Date(Date.parse(stats.mtime));
-        file.last_modified = d.toDateString();
+        file.size = filesize(stats.size);
+        // var d = new Date(Date.parse(stats.mtime));
+        file.last_modified = moment(stats.mtime).format('lll');
         if(fs.lstatSync(path + '/' + f).isDirectory() || fs.lstatSync(path + '/' + f).isSymbolicLink()) {
           file.type = 'folder';
         }

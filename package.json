@@ -4,10 +4,12 @@
   "description": "Publishify allows you to share any directory as HTTP web index.",
   "author": "Ramin Jafarov <rj@rjv.me>",
   "dependencies": {
-    "debug": "^2.2.0",
+    "debug": "^2.0.0",
     "ejs": "~0.8.5",
     "express": "~4.9.0",
-    "mime": "^1.3.4"
+    "filesize": "^3.1.2",
+    "mime": "^1.3.4",
+    "moment": "^2.10.3"
   },
   "bin": {
     "publishify": "app.js"
