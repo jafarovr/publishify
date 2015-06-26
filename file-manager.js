@@ -3,15 +3,15 @@ var path = require('path');
 var fs   = require('fs');
 var mime = require('mime');
 
+function send404() {
+  var err = new Error('Not Found');
+  err.status = 404;
+}
+
 function sendFile(response, filePath, fileContents) {
   var header = {'Content-Type' : mime.lookup(path.basename(filePath))};
   response.writeHead(200, header);
   response.end(fileContents);
-}
-
-function send404(response) {
-  response.writeHead(404, {'Content-Type': 'text/plain'});
-  response.end('404 Not Found');
 }
 
 function serveStatic(response, filePath) {
@@ -23,7 +23,7 @@ function serveStatic(response, filePath) {
       else
         fs.readFile(filePath, function(err, data) {
           if(err) {
-            send404(response);
+            send404();
           }
           else {
             sendFile(response, filePath, data);
@@ -31,28 +31,38 @@ function serveStatic(response, filePath) {
         })
     }
     else {
-      send404(response);
+      send404();
     }
   })
 }
 
-function listDir(res, path) {
+exports.listDir = function(path, callback) {
+  var response = new Object();
   fs.readdir(path, function(err, files) {
-      if (err) {
-        res.end('Directory error!');
-      }
-      else {
-        res.writeHead(200, {'Content-Type' : 'text/html'});
-        res.write('<h3>Files in ' + path + ' </h3><ol>');
-        if (files.length == 0) {
-          res.end('No files.');
+    if (err) {
+      send404();
+    }
+    else {
+      response.path = path;
+      response.files = [];
+      files.forEach(function(f) {
+        file = new Object();
+        file.name = f;
+        var stats = fs.statSync(path + "/" + f);
+        file.size = stats.size;
+        var d = new Date(Date.parse(stats.mtime));
+        file.last_modified = d.toDateString();
+        if(fs.lstatSync(path + "/" + f).isDirectory()) {
+          file.type = 'folder';
         }
-        files.forEach(function(f) {
-          res.write('<li><a href="' + f + '">' + f + '</a></li>');
-        })
-        res.end('</ol>');
-      }
-    });
+        else {
+          file.type = 'file outline';
+        }
+        response.files.push(file);
+      })
+    }
+    callback(response);
+  });
 }
 
 http.createServer(function(req, res) {

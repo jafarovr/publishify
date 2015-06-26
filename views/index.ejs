@@ -2,23 +2,24 @@
 <html>
   <head>
     <title>File Manager</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" href="/css/semantic.min.css">
     <link rel="stylesheet" type="text/css" href="/css/style.css">
   </head>
   <body>
     <div class="ui grid">
-      <div class="three column row">
-        <div class="column"></div>
-        <div class="column">
-          <h2 class="ui icon center aligned header">
-            <i class="disk outline icon"></i>
+      <div class="row">
+        <div class="three wide column"></div>
+        <div class="ten wide column">
+          <h2 class="ui header">
+            <i class="folder open icon"></i>
             <div class="content">
-              File Manager
-              <div class="sub header">Manage your account settings and set e-mail preferences.</div>
+              Index of <%=path %>
+              <!-- <div class="sub header">by. <a href="https://rjv.me">Ramin Jafarov</a></div> -->
             </div>
           </h2>
         </div>
-        <div class="column"></div>
+        <div class="three wide column"></div>
       </div>
     </div>
     <div class="ui grid">
@@ -38,11 +39,14 @@
               <% files.forEach(function(file) { %>
               <tr>
                 <td>
-                  <i class="<%=file.type %> icon"></i><a href="#"><%=file.name %></a>
+                  <i class="<%=file.type %> icon"></i><a href="<%=path + file.name%>"><%=file.name %></a>
                 </td>
                 <td><%=file.size %></td>
                 <td><%=file.last_modified %></td>
                 <td>
+                  <% if(file.type != 'folder') { %>
+                    <a href="#"><i class="download icon"></i> Download</a>
+                  <% } %>
                 </td>
               </tr>
               <% }); %>
