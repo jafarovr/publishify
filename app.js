@@ -1,12 +1,20 @@
+#!/usr/bin/env node
+
 var express = require('express');
 var path    = require('path');
 var fm      = require('./file-manager');
 var fs      = require('fs');
 var mime    = require('mime');
 
-var default_path = '/Users/rj/htdocs';
 
 var app = express();
+
+var args = process.argv.slice(2);
+console.log('DEBUG PORT: ' + args[0] + '\nDEBUG Path: ' + args[1]);
+
+var port = args[0];
+var default_path = args[1];
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -80,9 +88,7 @@ function downloadFile(response, file) {
   response.end(file.contents);
 }
 
-app.set('port', process.env.PORT || 3000);
-
-var server = app.listen(app.get('port'), function() {
+var server = app.listen(port, function() {
   console.log('node-file-manager listening on port ' + server.address().port);
 });
 
