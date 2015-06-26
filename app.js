@@ -79,12 +79,7 @@ if(args.length != 2) {
   process.exit();
 }
 
-if (port % 1 != 0) {
-  console.log('Port should be positive integer value.');
-  process.exit();
-}
-
-if (port > 65535 || port < 1 ) {
+if (port % 1 != 0 || port > 65535 || port < 1 ) {
   console.log('Only ports between 1 and 65535 are allowed.');
   process.exit();
 }
