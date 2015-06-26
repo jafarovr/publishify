@@ -15,7 +15,7 @@
             <i class="folder open icon"></i>
             <div class="content">
               Index of <%=path %>
-              <!-- <div class="sub header">by. <a href="https://rjv.me">Ramin Jafarov</a></div> -->
+              <div class="sub header">Total <%=files.length %> files.</div>
             </div>
           </h2>
         </div>
@@ -36,6 +36,18 @@
               </tr>
             </thead>
             <tbody>
+              <tr>
+                <td>
+                  <i class="level up icon"></i>
+                    <a href="../">
+                      Parent Directory
+                    </a>
+                </td>
+                <td>-</td>
+                <td>-</td>
+                <td> </td>
+              </tr>
+
               <% files.forEach(function(file) { %>
               <tr>
                 <td>
@@ -48,13 +60,14 @@
                 <td><%=file.last_modified %></td>
                 <td>
                   <% if(file.type != 'folder') { %>
-                    <a href="#"><i class="download icon"></i> Download</a>
+                    <a href="<%= path + file.name %>"><i class="download icon"></i> Download</a>
                   <% } %>
                 </td>
               </tr>
               <% }); %>
             </tbody>
           </table>
+          <!-- <center><small>developed by <a href="https://rjv.me">ramin jafarov</a></small></center> -->
         </div>
         <div class="three wide column"></div>
       </div>

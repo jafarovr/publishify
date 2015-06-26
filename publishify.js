@@ -27,7 +27,6 @@ exports.listDir = function(path, callback) {
   var response = new Object();
   fs.readdir(path, function(err, files) {
     if (err) {
-      console.log('ERROR: no such directory');
       callback('read err', null);
     }
     else {
