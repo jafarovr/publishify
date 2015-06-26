@@ -39,7 +39,6 @@ exports.listDir = function(path, callback) {
         file.name = f;
         var stats = fs.statSync(path + '/' + f);
         file.size = filesize(stats.size);
-        // var d = new Date(Date.parse(stats.mtime));
         file.last_modified = moment(stats.mtime).format('lll');
         if(fs.lstatSync(path + '/' + f).isDirectory() || fs.lstatSync(path + '/' + f).isSymbolicLink()) {
           file.type = 'folder';
