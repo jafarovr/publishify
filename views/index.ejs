@@ -59,7 +59,7 @@
                 <td><%=file.last_modified %></td>
                 <td>
                   <% if(file.type != 'folder') { %>
-                    <a href="<%= path + file.name %>"><i class="download icon"></i> Download</a>
+                    <a href="/?download=<%= path + file.name %>"><i class="download icon"></i> Download</a>
                   <% } %>
                 </td>
               </tr>

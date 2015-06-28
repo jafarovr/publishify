@@ -6,7 +6,6 @@ var fm      = require('./publishify');
 var fs      = require('fs');
 var mime    = require('mime');
 
-
 var app = express();
 
 var args = process.argv.slice(2);
@@ -21,36 +20,52 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(function(req, res) {
   // console.log('DEBUG: req.url: ' + req.url);
-  
-  var path = new Object();
+  if(req.query.download != undefined) {
+    var path = default_path + req.query.download;
+    fs.exists(path, function(exists) {
+        if (exists) {
+          res.download(path, function(err) {
+            if (err) {
+              showErrorPage(res, 'read err');
+            }
+          });
+        }
+        else {
+          showErrorPage(res, 'not found');
+        }
+    });
+  }
+  else {
+    var path = new Object();
 
-  if (req.url == '/') path = default_path; 
-  else path = default_path + req.url;
+    if (req.url == '/') path = default_path;
+    else path = default_path + '' + req.url;
 
-  fs.exists(path, function(exists) {
-    if (exists) {
-      if (fs.lstatSync(path).isDirectory() || fs.lstatSync(path).isSymbolicLink()) {
-        fm.listDir(path, function(err, response) {
-          // console.log('DEBUG: path: ' + path);
-          if (!err) res.render('index', { files: response.files, path: req.url });
-          else showErrorPage(res, err);
-        });
+    fs.exists(path, function(exists) {
+      if (exists) {
+        if (fs.lstatSync(path).isDirectory() || fs.lstatSync(path).isSymbolicLink()) {
+          fm.listDir(path, function(err, response) {
+            // console.log('DEBUG: path: ' + path);
+            if (!err) res.render('index', { files: response.files, path: req.url });
+            else showErrorPage(res, err);
+          });
+        }
+        else {
+          fm.serveStatic(path, function(err, file) {
+            if (!err) sendFile(res, file);
+            else showErrorPage(res, err);
+          });
+        }
       }
       else {
-        fm.serveStatic(path, function(err, file) {
-          if (!err) sendFile(res, file);
-          else showErrorPage(res, err);
-        });
+        showErrorPage(res, 'not found');
       }
-    }
-    else {
-      showErrorPage(res, 'not found');
-    }
-  });
+    });
+  }
 });
 
 function sendFile(response, file) {
-  response.writeHead(200, { 
+  response.writeHead(200, {
     'Content-Type' : mime.lookup(path.basename(file.path))
   });
   response.end(file.contents);
@@ -94,4 +109,3 @@ server.on('error', function(err) {
   else
     console.log('Unexpected Error! You can report following error code to rj@rjv.me.\n' + JSON.stringify(err));
 });
-
