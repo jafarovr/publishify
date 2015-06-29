@@ -41,6 +41,16 @@ app.use(function(req, res) {
     if (req.url == '/') path = default_path;
     else path = default_path + '' + req.url;
 
+    // temporary fix for files/directories which have space '%20'.
+    // console.log('has space?: ' + (path.indexOf('%20') > -1));
+    // not really desired way.
+    if(path.indexOf('%20')) {
+      path    = path.replace(/%20/g, ' ');
+      req.url = req.url.replace(/%20/g, ' ');
+    }
+
+    console.log('path: ' + path);
+
     fs.exists(path, function(exists) {
       if (exists) {
         if (fs.lstatSync(path).isDirectory() || fs.lstatSync(path).isSymbolicLink()) {
