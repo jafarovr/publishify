@@ -5,8 +5,10 @@ var path    = require('path');
 var fm      = require('./publishify');
 var fs      = require('fs');
 var mime    = require('mime');
+var favicon = require('serve-favicon');
 
 var app = express();
+app.use(favicon(__dirname + '/public/favicon.ico'));
 
 var args = process.argv.slice(2);
 
