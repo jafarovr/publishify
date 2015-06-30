@@ -38,18 +38,11 @@ app.use(function(req, res) {
   else {
     var path = new Object();
 
+    // fix if there's space and other unsupported chars in dir/file
+    req.url = decodeURI(req.url);
+
     if (req.url == '/') path = default_path;
     else path = default_path + '' + req.url;
-
-    // temporary fix for files/directories which have space '%20'.
-    // console.log('has space?: ' + (path.indexOf('%20') > -1));
-    // not really desired way.
-    if(path.indexOf('%20')) {
-      path    = path.replace(/%20/g, ' ');
-      req.url = req.url.replace(/%20/g, ' ');
-    }
-
-    console.log('path: ' + path);
 
     fs.exists(path, function(exists) {
       if (exists) {
