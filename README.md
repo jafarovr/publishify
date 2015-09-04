@@ -4,6 +4,8 @@ A simple command-line tool that allows you to publish any directory as as HTTP w
 
 **NOTE:** Project is currently under development. More features will be added, hopefully.
 
+![Screenshot](https://github.com/jafarovr/publishify/raw/master/screenshot.png "Screenshot")
+
 ### How to install
 
 In order to use this tool, **[node.js]**, **[npm]** and **[Git]** should be installed on your machine. Then you could just run following commands.
