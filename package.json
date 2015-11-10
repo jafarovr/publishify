@@ -1,6 +1,6 @@
 {
   "name": "publishify",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Publishify allows you to share any directory as HTTP web index.",
   "author": "Ramin Jafarov <rj@rjv.me>",
   "dependencies": {
@@ -16,8 +16,8 @@
     "publishify": "app.js"
   },
   "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com:jafarovr/publishify.git"
-  }
+  "repository": "github:jafarovr/publishify",
+  "keywords": [
+    "publishify", "publish", "apache index", "directory"
+  ]
 }

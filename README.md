@@ -10,9 +10,7 @@ A simple command-line tool that allows you to publish any directory as as HTTP w
 
 In order to use this tool, **[node.js]**, **[npm]** and **[Git]** should be installed on your machine. Then you could just run following commands.
 ```
-git clone git@github.com:jafarovr/publishify.git
-cd publishify/
-npm install -g
+[sudo] npm install -g publishify
 ```
 **Note**: You may need ``sudo`` access to install it.
 
@@ -35,7 +33,7 @@ and many more...
 
 ### More?
 
-The project is currently under development. I am learning/improving my Node.js skills and as well as working on this project. More features will be added soon. Feel free to contribute to the project and mail me at rj@rjv.me for any suggestions/bugs.
+The project is currently under development. I am learning/improving my Node.js skills and as well as working on this project. More features will be added soon. Use it on your own risk! Feel free to contribute to the project and/or contact me for any suggestions/bugs.
 
 ### License
 
