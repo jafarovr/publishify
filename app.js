@@ -6,19 +6,18 @@ var fm      = require('./publishify');
 var fs      = require('fs');
 var mime    = require('mime');
 var favicon = require('serve-favicon');
+var program = require('commander');
 
-var app = express();
-app.use(favicon(__dirname + '/public/favicon.ico'));
-
-var args = process.argv.slice(2);
-
-var port = args[0];
-var default_path = args[1];
+var app     = express(); 
+var port    = 0;
+var default_path = '.';
+var version = '0.0.3';
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(favicon(__dirname + '/public/favicon.ico'));
 
 app.use(function(req, res) {
   // console.log('DEBUG: req.url: ' + req.url);
@@ -92,25 +91,20 @@ function showErrorPage(response, err) {
   response.render('error', { message: message, status: status });
 }
 
+program
+  .version(version)
+  .usage('[options] <directory>')
+  .description('A simple command-line tool that allows you to publish any directory as as HTTP web index')
+  .option('-p, --port [number]', 'port for web server', parseInt)
+  .parse(process.argv);
 
-// check port and directory before starting the app! boring if cases :(
-if(args.length != 2) {
-  console.log('USAGE: publishify PORT directory\nEXAMPLE: publishify 3000 ../test');
-  process.exit();
-}
-
-if (port % 1 != 0 || port > 65535 || port < 1 ) {
-  console.log('Only ports between 1 and 65535 are allowed.');
-  process.exit();
-}
+if (program.port && program.port > 1) port         = program.port;
+if (program.args[0] != undefined)     default_path = program.args[0];
 
 var server = app.listen(port, function() {
   console.log('publishify running on port ' + server.address().port + ' and directory ' + default_path);
 })
 
 server.on('error', function(err) {
-  if (err.errno == 'EACCES' && err.syscall =='listen')
-    console.log('It seems the OS didn\'t like the port you entered. Please choose another.');
-  else
-    console.log('Unexpected Error! You can report following error code to rj@rjv.me.\n' + JSON.stringify(err));
+  console.log('Unexpected Error!\n' + JSON.stringify(err));
 });
