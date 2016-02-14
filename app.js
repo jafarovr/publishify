@@ -7,11 +7,13 @@ var fs      = require('fs');
 var mime    = require('mime');
 var favicon = require('serve-favicon');
 var program = require('commander');
+var ip      = require('ip');
 
 var app     = express(); 
 var port    = 0;
 var default_path = '.';
-var version = '0.0.3';
+var version = '0.0.4';
+var ip_addr = ip.address();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -102,7 +104,8 @@ if (program.port && program.port > 1) port         = program.port;
 if (program.args[0] != undefined)     default_path = program.args[0];
 
 var server = app.listen(port, function() {
-  console.log('publishify running on port ' + server.address().port + ' and directory ' + default_path);
+  console.log('publishify running on directory ' + default_path);
+  console.log('open http://' + ip_addr + ':' + server.address().port + '/ on your browser to view your files.' )
 })
 
 server.on('error', function(err) {
