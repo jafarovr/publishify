@@ -24,7 +24,10 @@ publishify /home/user
 ```
 ###### Output:
 ```
-publishify running on port 63322 and directory /Users/rj
+publishify running on directory /Users/rj
+
+open http://192.168.1.90:3030/ on your browser to view your files.
+
 ```
 Then, visit following link: ``http://YOUR_IP_ADDRESS:PORT``. If you're running locally (you won't probably need it) visit ``http://localhost:PORT``.
 

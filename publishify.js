@@ -1,8 +1,9 @@
-var http = require('http');
-var path = require('path');
-var fs   = require('fs');
-var filesize = require('filesize');
-var moment = require('moment');
+var http      = require('http');
+var path      = require('path');
+var fs        = require('fs');
+var filesize  = require('filesize');
+var moment    = require('moment');
+var mime      = require('mime');
 
 exports.serveStatic = function (filePath, callback) {
   fs.exists(filePath, function(exists) {
@@ -51,4 +52,11 @@ exports.listDir = function(path, callback) {
       callback(null, response);
     }
   });
+}
+
+exports.sendFile = function(response, file) {
+  response.writeHead(200, {
+    'Content-Type' : mime.lookup(path.basename(file.path))
+  });
+  response.end(file.contents);
 }
