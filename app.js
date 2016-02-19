@@ -13,7 +13,7 @@ var port          = 0;
 var default_path  = '.';
 var version       = '0.0.5';
 var ip_addr       = ip.address();
-var show_hidden   = false;
+var should_hide   = true;
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -45,18 +45,14 @@ function listFiles(res, req) {
   req.url = decodeURI(req.url);
   path = req.url == '/' ? default_path : default_path.concat(req.url);
 
-  // check if the file or folder is hidden?
-  // req.url.split("/").forEach(function(directory) {
-  //   if (show_hidden && directory.startsWith(".")) {
-  //     showErrorPage(res, 'forbidden err');
-  //     return false;
-  //   }
-  // });
-
   fs.exists(path, function(exists) {
     if (exists) {
       if (fs.lstatSync(path).isDirectory() || fs.lstatSync(path).isSymbolicLink()) {
-        publishify.listDir(path, function(err, response) {
+        // check if the file or folder is hidden?
+        if (should_hide && path.indexOf("/.") > -1) {
+          showErrorPage(res, 'forbidden err');
+        }
+        else publishify.listDir(path, should_hide, function(err, response) {
           if (!err) res.render('index', { files: response.files, path: req.url });
           else showErrorPage(res, err);
         });
@@ -100,12 +96,12 @@ program
   .usage('[options] <directory>')
   .description('A simple command-line tool that allows you to publish any directory as as HTTP web index')
   .option('-p, --port [number]', 'port for web server', parseInt)
-  .option('-x, --hidden', 'show hidden files. by default hidden files are not accessible.')
+  .option('-x, --hidden', 'show hidden files. by default, hidden files are not accessible.')
   .parse(process.argv);
 
 if (program.port && program.port > 1) port         = program.port;
 if (program.args[0] != undefined)     default_path = program.args[0];
-if (program.hidden)                   show_hidden  = true;
+if (program.hidden)                   should_hide  = false;
 
 var server = app.listen(port, function() {
   console.log('publishify running on directory ' + default_path);

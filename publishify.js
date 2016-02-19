@@ -26,7 +26,7 @@ exports.serveStatic = function (filePath, callback) {
   })
 }
 
-exports.listDir = function(path, callback) {
+exports.listDir = function(path, should_hide, callback) {
   var response = new Object();
   fs.readdir(path, function(err, files) {
     if (err) {
@@ -36,6 +36,9 @@ exports.listDir = function(path, callback) {
       response.path = path;
       response.files = [];
       files.forEach(function(f) {
+        // should I hide the file?
+        if (should_hide && f.startsWith(".")) return;
+
         var file = new Object();
         file.name = f;
         var stats = fs.statSync(path + '/' + f);
