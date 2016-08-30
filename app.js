@@ -7,6 +7,8 @@ var fs            = require('fs');
 var favicon       = require('serve-favicon');
 var program       = require('commander');
 var ip            = require('ip');
+var localtunnel   = require('localtunnel');
+
 
 var app           = express(); 
 var port          = 0;
@@ -14,6 +16,7 @@ var default_path  = '.';
 var version       = '0.0.5';
 var ip_addr       = ip.address();
 var should_hide   = true;
+var expose        = false;
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -97,8 +100,10 @@ program
   .description('A simple command-line tool that allows you to publish any directory as as HTTP web index')
   .option('-p, --port [number]', 'port for web server', parseInt)
   .option('-x, --hidden', 'show hidden files. by default, hidden files are not accessible.')
+  .option('-e, --expose', 'expose the directory to web. powered by localtunnel.')
   .parse(process.argv);
 
+if (program.expose) expose = true
 if (program.port && program.port > 1) port         = program.port;
 if (program.args[0] != undefined)     default_path = program.args[0];
 if (program.hidden)                   should_hide  = false;
@@ -107,6 +112,15 @@ var server = app.listen(port, function() {
   console.log('publishify running on directory ' + default_path);
   console.log('open http://' + ip_addr + ':' + server.address().port + '/ on your browser to view your files.' )
 })
+if (expose) {
+  var tunnel = localtunnel(server.address().port, function(err, tunnel) {
+    if (err) console.log("exposing your directory to web is not successful, try again.");
+    console.log("your directory is also publicly available on " + tunnel.url);
+  });
+  tunnel.on('close', function() {
+    console.log("localtunnel is closed now, please try again.");
+  });
+}
 
 server.on('error', function(err) {
   console.log('Error: ' + JSON.stringify(err));

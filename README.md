@@ -25,11 +25,20 @@ publishify /home/user
 ###### Output:
 ```
 publishify running on directory /Users/rj
-
 open http://192.168.1.90:3030/ on your browser to view your files.
-
 ```
 Then, visit following link: ``http://YOUR_IP_ADDRESS:PORT``. If you're running locally (you won't probably need it) visit ``http://localhost:PORT``.
+
+If you want to expose your directory to the web and share it with your friends, just use following command.
+```
+publishify /home/user -e
+```
+You will see an output given below. The functionality is powered by [localtunnel].
+```
+publishify running on directory .
+open http://192.168.1.102:55676/ on your browser to view your files.
+your directory is also publicly available on http://jrsqgsdpgq.localtunnel.me
+```
 
 Try running ``publishify --help`` to get more info about how to run it. There's not much stuff now, but will add more soon.
 
@@ -37,16 +46,17 @@ Try running ``publishify --help`` to get more info about how to run it. There's 
 
 * [Express] - Node.js web application framework
 * [EJS] - Embedded JavaScript templating
+* [localtunnel] - Exposes your localhost to the world!
 
 and many more...
 
 ### More?
 
-The project is currently under development. I am learning/improving my Node.js skills and as well as working on this project. More features will be added soon. Use it on your own risk! Feel free to contribute to the project and/or contact me for any suggestions/bugs.
+The project is currently under development. More features will be added soon. Use it on your own risk! Feel free to contribute to the project and/or contact me for any suggestions/bugs.
 
 ### License
 
-Copyright (c) 2015 [Ramin Jafarov]. Licensed under the MIT license.
+Copyright (c) 2016 [Ramin Jafarov]. Licensed under the MIT license.
 
 [Express]:http://expressjs.com/
 [EJS]:http://www.embeddedjs.com/
@@ -54,3 +64,4 @@ Copyright (c) 2015 [Ramin Jafarov]. Licensed under the MIT license.
 [npm]:https://www.npmjs.com/
 [Git]:https://git-scm.com/
 [Ramin Jafarov]:https://rjv.me
+[localtunnel]:https://github.com/localtunnel/localtunnel
