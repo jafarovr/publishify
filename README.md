@@ -1,8 +1,6 @@
 # Publishify
 
-A simple command-line tool that allows you to publish any directory as as HTTP web index (like Apache web index).
-
-**NOTE:** Project is currently under development. More features will be added, hopefully.
+Expose your local directory to the web with a single command.
 
 ![Screenshot](https://github.com/jafarovr/publishify/raw/master/screenshot.png "Screenshot")
 
@@ -56,7 +54,7 @@ The project is currently under development. More features will be added soon. Us
 
 ### License
 
-Copyright (c) 2016 [Ramin Jafarov]. Licensed under the MIT license.
+Copyright (c) [Ramin Jafarov]. Licensed under the MIT license.
 
 [Express]:http://expressjs.com/
 [EJS]:http://www.embeddedjs.com/

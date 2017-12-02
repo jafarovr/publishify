@@ -1,12 +1,12 @@
 {
   "name": "publishify",
-  "version": "0.0.6",
-  "description": "Publishify allows you to share any directory as HTTP web index.",
+  "version": "1.0.0",
+  "description": "Expose your local directory to the web with a single command.",
   "author": "Ramin Jafarov <rj@rjv.me>",
   "dependencies": {
     "commander": "^2.9.0",
     "debug": "^2.0.0",
-    "ejs": "~0.8.5",
+    "ejs": "^2.5.5",
     "express": "~4.9.0",
     "filesize": "^3.1.2",
     "ip": "^1.1.0",
@@ -23,7 +23,6 @@
   "keywords": [
     "publishify",
     "publish",
-    "apache index",
     "directory"
   ]
 }
